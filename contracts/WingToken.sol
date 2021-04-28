@@ -7,7 +7,7 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 //SPDX-License-Identifier: <SPDX-License>
 contract WingToken is ERC20, Ownable {
 
-    constructor()ERC20("WING Token", "WING"){
+    constructor()ERC20("Wing Token", "WING"){
         uint totalSupply = 500000 * (10 ** decimals());
         _mint(owner(), totalSupply);
     }

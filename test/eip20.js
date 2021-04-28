@@ -1,11 +1,11 @@
 const BigNumber = require('bignumber.js');
-const EIP20 = artifacts.require('Wing');
+const WING = artifacts.require('WingToken');
 const {expectRevert, expectEvent, constants, BN} = require('@openzeppelin/test-helpers');
 
 
 contract('deploy EIP20', (accounts) => {
     beforeEach(async function () {
-        this.token = await EIP20.new({
+        this.token = await WING.new({
             from: accounts[0],
             value: web3.utils.toWei('0', 'ether'),
             gas: 10000000,
@@ -15,7 +15,7 @@ contract('deploy EIP20', (accounts) => {
 
     it('check init parameter', async function () {
         const name = await this.token.name();
-        assert.equal(name, 'WING TOKEN');
+        assert.equal(name, 'Wing Token');
 
         const decimals = await this.token.decimals();
         assert.equal(decimals.toNumber(), 9);
@@ -72,7 +72,7 @@ contract('deploy EIP20', (accounts) => {
   it('mint', async function () {
     const totalSupply = await this.token.totalSupply();
     let mintAmt = BigNumber(10000e9);
-    const result = await this.token.mint(mintAmt);
+    const result = await this.token.mint(accounts[0],mintAmt);
     expectEvent.inLogs(result.logs, 'Transfer', {
       from:"0x0000000000000000000000000000000000000000",
       to:accounts[0],

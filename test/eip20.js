@@ -81,4 +81,18 @@ contract('deploy EIP20', (accounts) => {
     const totalSupply2 = await this.token.totalSupply();
     assert.equal(mintAmt, totalSupply2 - totalSupply);
   });
+
+  it('burn', async function () {
+      const totalSupply = await this.token.totalSupply();
+      let burnAmt = BigNumber(10000e9);
+      const result = await this.token.burn(burnAmt);
+
+      expectEvent.inLogs(result.logs, 'Transfer', {
+        from:accounts[0],
+        to:"0x0000000000000000000000000000000000000000",
+        value:new web3.utils.BN(burnAmt.toString()),
+      });
+      const totalSupply2 = await this.token.totalSupply();
+      assert.equal(burnAmt, totalSupply - totalSupply2);
+    });
 });

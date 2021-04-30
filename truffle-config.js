@@ -36,6 +36,18 @@ module.exports = {
    */
 
   networks: {
+
+     mainnet: {
+          provider: () => new HDWalletProvider(mnemonic, `http://onto-eth.ont.io:10331`),
+          port: 10331,            // Standard Ethereum port (default: none)
+          network_id: 1,       // Any network (default: none)
+          gas: 8000000,           // Gas sent with each transaction (default: ~6700000)
+          gasPrice: 2000000000,  // 20 gwei (in wei) (default: 100 gwei)
+          confirmations: 3,    // # of confs to wait between deployments. (default: 0)
+          timeoutBlocks: 200,  // # of blocks before a deployment times out  (minimum/default: 50)
+          skipDryRun: true,
+          networkCheckTimeout: 100000000
+      },
     // Useful for testing. The `development` name is special - truffle uses it by default
     // if it's defined here and no other network is specified at the command line.
     // You should run a client (like ganache-cli, geth or parity) in a separate terminal

@@ -18,11 +18,20 @@
  *
  */
 
-// const HDWalletProvider = require('@truffle/hdwallet-provider');
+ const HDWalletProvider = require('@truffle/hdwallet-provider');
 // const infuraKey = "fj4jll3k.....";
 //
-// const fs = require('fs');
-// const mnemonic = fs.readFileSync(".secret").toString().trim();
+ const fs = require('fs');
+ const mnemonic = fs.readFileSync(".secret").toString().trim();
+//var okexPrivateKeys = [
+//    "d0e96ff86850ca27a7911d237a0d6335370ea271e99c65d2121b67ab70748b75"
+//]
+var privateKeys = [
+    "0x5c5db1ce2016982241455768db28f014e3d939acdca70c939a18d9cc8255cbfe",
+    "7cf474d9206fc1522937597042e05ddfe61bd12c56d0c65ffff96faf57e0116f",
+    "57aa4b1fa4f1bc6824d8ed3cea202b4753e0734ccd94a4a7ba941a3f46739cce",
+    "320a11f656e35d00cd4a9e0003d7b069660eedf3e7fc1a545604782dc05c34bd"
+];
 
 module.exports = {
   /**
@@ -43,6 +52,25 @@ module.exports = {
           network_id: 1,       // Any network (default: none)
           gas: 8000000,           // Gas sent with each transaction (default: ~6700000)
           gasPrice: 2000000000,  // 20 gwei (in wei) (default: 100 gwei)
+          confirmations: 3,    // # of confs to wait between deployments. (default: 0)
+          timeoutBlocks: 200,  // # of blocks before a deployment times out  (minimum/default: 50)
+          skipDryRun: true,
+          networkCheckTimeout: 100000000
+      },
+      okex: {
+          provider: () => new HDWalletProvider(mnemonic, `https://exchaintestrpc.okex.org`),
+          network_id: 65,
+          confirmations: 4,
+          skipDryRun: true,
+          networkCheckTimeout: 100000000,
+          gas: 8000000,           // Gas sent with each transaction (default: ~6700000)
+          gasPrice: 50000000000,  // 20 gwei (in wei) (default: 100 gwei)
+      },
+      kovan: {
+          provider: () => new HDWalletProvider(privateKeys, `https://kovan.infura.io/v3/d87255a6627542eba4eaa9d5278832e0`),
+          network_id: '*',       // kovan's id
+          gas: 8000000,        // kovan has a lower block limit than mainnet
+          gasPrice: 10000000000,//10
           confirmations: 3,    // # of confs to wait between deployments. (default: 0)
           timeoutBlocks: 200,  // # of blocks before a deployment times out  (minimum/default: 50)
           skipDryRun: true,
@@ -97,10 +125,10 @@ module.exports = {
   compilers: {
     solc: {
        version: "0.8.0",    // Fetch exact version from solc-bin (default: truffle's version)
-//       docker: true,        // Use "0.5.1" you've installed locally with docker (default: false)
+       docker: false,        // Use "0.5.1" you've installed locally with docker (default: false)
        settings: {          // See the solidity docs for advice about optimization and evmVersion
         optimizer: {
-          enabled: false,
+          enabled: true,
           runs: 200
         },
         // evmVersion: "byzantium"
